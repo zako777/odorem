@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "odorem-core"
+version = "0.1.0"
+description = "Development tasks for the Odorem project"
+requires-python = ">=3.10"
+dependencies = [
+  "invoke>=2.2,<3",
+]
+
+[tool.setuptools]
+py-modules = []
