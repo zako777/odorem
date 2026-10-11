@@ -1,0 +1,46 @@
+services:
+  backend:
+    build:
+      context: ../..
+      dockerfile: infra/docker/backend.Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      APP_KEY: ${APP_KEY:-}
+      HOST: 0.0.0.0
+      PORT: 3333
+      NODE_ENV: production
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      APP_URL: http://localhost:${BACKEND_PORT:-3333}
+      SESSION_DRIVER: ${SESSION_DRIVER:-database}
+      DB_CONNECTION: pg
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${POSTGRES_USER:-odorem}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-odorem}
+      DB_DATABASE: ${POSTGRES_DB:-odorem}
+    ports:
+      - "${BACKEND_PORT:-3333}:3333"
+    volumes:
+      - backend_tmp:/app/backend/build/tmp
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-odorem}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-odorem}
+      POSTGRES_DB: ${POSTGRES_DB:-odorem}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-odorem} -d ${POSTGRES_DB:-odorem}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  backend_tmp:
+  postgres_data:
