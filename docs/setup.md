@@ -30,6 +30,58 @@ inv -r infra docker-logs
 inv -r infra docker-down
 ```
 
-Le conteneur utilise la base SQLite configurée par défaut dans le backend et
-conserve `backend/tmp` dans un volume Docker. Le port publié est `3333`; il peut
-être changé avec `BACKEND_PORT`.
+Le port publié est `3333`; il peut être changé avec `BACKEND_PORT`.
+
+## Base de données et migrations
+
+PostgreSQL est la base cible du MVP. Le service `postgres` de
+`infra/docker/compose.yml` la fournit en local (utilisateur, mot de passe et
+base `odorem` par défaut, port `5432`).
+
+### Démarrer la base uniquement
+
+```sh
+docker compose -f infra/docker/compose.yml up -d postgres
+```
+
+Les données persistent dans le volume Docker `postgres_data`.
+
+### Configurer le backend
+
+Créer `backend/.env` (non versionné) à partir de `backend/.env.example`, puis
+renseigner :
+
+```env
+DB_CONNECTION=pg
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_USER=odorem
+DB_PASSWORD=odorem
+DB_DATABASE=odorem
+```
+
+Générer la clé applicative si `APP_KEY` est vide :
+
+```sh
+cd backend
+node ace.js generate:key
+```
+
+### Jouer les migrations
+
+Depuis `backend/` :
+
+```sh
+node ace.js migration:run        # applique les migrations en attente
+node ace.js migration:status     # affiche l'état des migrations
+node ace.js migration:rollback   # annule le dernier batch (dev uniquement)
+```
+
+`migration:run` crée les tables de suivi `adonis_schema` et
+`adonis_schema_versions` au premier passage, puis régénère automatiquement
+les classes de schéma après chaque exécution.
+
+Règle : une seule migration de création par table. Avant d'en ajouter une,
+vérifier qu'aucune migration existante ne crée déjà cette table. Tout
+rollback, reset ou suppression de volume nécessite une validation explicite
+et une cible identifiée (voir CLAUDE.md).
