@@ -11,12 +11,15 @@ if (databaseConnection && !['sqlite', 'pg'].includes(databaseConnection)) {
 const dbConfig = defineConfig({
   /**
    * Default connection used for all queries.
+   *
+   * PostgreSQL is the active connection. SQLite remains available when
+   * DB_CONNECTION=sqlite is set explicitly.
    */
-  connection: databaseConnection === 'pg' ? 'pg' : 'sqlite',
+  connection: databaseConnection === 'sqlite' ? 'sqlite' : 'pg',
 
   connections: {
     /**
-     * SQLite connection (default).
+     * SQLite connection (opt-in via DB_CONNECTION=sqlite).
      */
     sqlite: {
       client: 'better-sqlite3',

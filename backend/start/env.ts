@@ -35,5 +35,5 @@ export default await Env.create(new URL('../', import.meta.url), {
   DB_USER: Env.schema.string(),
   DB_PASSWORD: Env.schema.string.optional(),
   DB_DATABASE: Env.schema.string(),
-  DB_CONNECTION: Env.schema.string.optional()
+  DB_CONNECTION: Env.schema.enum.optional(['sqlite', 'pg'] as const),
 })
