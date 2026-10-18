@@ -1,0 +1,50 @@
+name: Backend unit tests
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'infra/tasks.py'
+      - '.github/workflows/unit-tests-pr.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    name: Run backend unit tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      NODE_ENV: test
+      HOST: localhost
+      LOG_LEVEL: info
+      APP_KEY: 12345678901234567890123456789012
+      APP_URL: http://localhost:3333
+      SESSION_DRIVER: memory
+      DB_CONNECTION: sqlite
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USER: test
+      DB_DATABASE: test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm test -- unit
