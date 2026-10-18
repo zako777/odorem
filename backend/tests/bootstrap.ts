@@ -5,6 +5,7 @@ import graphql from '@foadonis/graphql/services/main'
 import type { Config } from '@japa/runner/types'
 import { pluginAdonisJS } from '@japa/plugin-adonisjs'
 import { dbAssertions } from '@adonisjs/lucid/plugins/db'
+import db from '@adonisjs/lucid/services/db'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { authApiClient } from '@adonisjs/auth/plugins/api_client'
 import { sessionApiClient } from '@adonisjs/session/plugins/api_client'
@@ -42,19 +43,13 @@ export const plugins: Config['plugins'] = [
  * The teardown functions are executed after all the tests
  */
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
-  setup: [
-    () => testUtils.db().migrate(),
-    async () => {
-      if (!graphql.driver.isReady) {
-        await graphql.start()
-      }
-    },
-  ],
+  setup: [],
   teardown: [
     async () => {
       if (graphql.driver.isReady) {
         await graphql.stop()
       }
+      await db.manager.closeAll()
     },
   ],
 }
@@ -65,6 +60,12 @@ export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
  */
 export const configureSuite: Config['configureSuite'] = (suite) => {
   if (['browser', 'functional', 'e2e'].includes(suite.name)) {
-    return suite.setup(() => testUtils.httpServer().start())
+    return suite.setup(async () => {
+      await testUtils.db().migrate()
+      if (!graphql.driver.isReady) {
+        await graphql.start()
+      }
+      await testUtils.httpServer().start()
+    })
   }
 }

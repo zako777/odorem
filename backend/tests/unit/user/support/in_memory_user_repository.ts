@@ -1,4 +1,4 @@
-import type { UserEntity } from '#user/domain/user'
+import { UserEntity } from '#user/domain/user'
 import type { UserPersistenceInput, UserRepository } from '#user/domain/user_repository'
 
 export default class InMemoryUserRepository implements UserRepository {
@@ -16,7 +16,7 @@ export default class InMemoryUserRepository implements UserRepository {
 
   async save(data: UserPersistenceInput) {
     this.lastSavedInput = data
-    const user = new (await import('#user/domain/user')).UserEntity(
+    const user = new UserEntity(
       this.nextId++,
       data.email,
       data.fullName,
