@@ -6,6 +6,12 @@ import type { ApiDefinition } from './tree.d.ts'
 const placeholder: any = {}
 
 const routes = {
+  'graphql': {
+    methods: ["GET","POST","PATCH","HEAD","OPTIONS"],
+    pattern: '/graphql',
+    tokens: [{"old":"/graphql","type":0,"val":"graphql","end":""}],
+    types: placeholder as Registry['graphql']['types'],
+  },
   'auth.new_account.store': {
     methods: ["POST"],
     pattern: '/api/v1/auth/signup',

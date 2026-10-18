@@ -1,6 +1,7 @@
 import { assert } from '@japa/assert'
 import { apiClient } from '@japa/api-client'
 import app from '@adonisjs/core/services/app'
+import graphql from '@foadonis/graphql/services/main'
 import type { Config } from '@japa/runner/types'
 import { pluginAdonisJS } from '@japa/plugin-adonisjs'
 import { dbAssertions } from '@adonisjs/lucid/plugins/db'
@@ -41,8 +42,21 @@ export const plugins: Config['plugins'] = [
  * The teardown functions are executed after all the tests
  */
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
-  setup: [],
-  teardown: [],
+  setup: [
+    () => testUtils.db().migrate(),
+    async () => {
+      if (!graphql.driver.isReady) {
+        await graphql.start()
+      }
+    },
+  ],
+  teardown: [
+    async () => {
+      if (graphql.driver.isReady) {
+        await graphql.stop()
+      }
+    },
+  ],
 }
 
 /**
