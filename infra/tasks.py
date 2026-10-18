@@ -7,6 +7,7 @@ Run these tasks from the repository root with:
 
 from pathlib import Path
 import os
+import secrets
 import shlex
 import shutil
 
@@ -20,8 +21,26 @@ COMPOSE_FILE = ROOT / "infra" / "docker" / "compose.yml"
 COMPOSE = "docker-compose" if shutil.which("docker-compose") else "docker compose"
 
 
+def _ensure_backend_env() -> None:
+    """Create a local backend environment file when it does not exist."""
+    env_file = BACKEND / ".env"
+    if env_file.exists():
+        return
+
+    example_file = BACKEND / ".env.example"
+    if not example_file.exists():
+        raise FileNotFoundError(f"Missing backend environment template: {example_file}")
+
+    content = example_file.read_text()
+    content = content.replace("APP_KEY=", f"APP_KEY={secrets.token_hex(32)}", 1)
+    env_file.write_text(content)
+    print(f"Created {env_file} from {example_file}")
+
+
 def _npm(ctx: Context, directory: Path, command: str) -> None:
     """Run an npm script in a project directory."""
+    if directory == BACKEND:
+        _ensure_backend_env()
     ctx.run(f"cd {shlex.quote(str(directory))} && npm {command}", pty=True)
 
 
@@ -36,6 +55,7 @@ def _compose(ctx: Context, command: str) -> None:
 @task
 def install(ctx: Context) -> None:
     """Install backend and mobile dependencies."""
+    _ensure_backend_env()
     _npm(ctx, BACKEND, "ci")
     _npm(ctx, MOBILE, "ci")
 
