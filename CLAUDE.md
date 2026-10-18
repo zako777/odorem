@@ -320,6 +320,20 @@ Si Graphify est disponible, l’utiliser comme aide à la navigation.
 Vérifier les relations et conclusions dans le code réel.
 Ne pas considérer son index comme nécessairement à jour.
 
+## 13. Skills de référence pour le code
+
+Avant d'écrire ou de modifier du code, consulter l'index ci-dessous,
+puis lire en entier le ou les skills dont le déclencheur correspond à la tâche.
+
+### Index des skills
+
+| Skill | Fichier | À utiliser quand |
+|---|---|---|
+| adonisjs-lucid | docs/skills/adonis/SKILL.md | Créer ou modifier une table, une migration, un modèle Lucid ou une relation |
+| adonisjs-graphql-ddd | docs/skills/adonis/SKILL-graphql-ddd.md | Ajouter ou modifier un type, un input, une query, une mutation, un resolver ou une règle d'autorisation GraphQL |
+| adonisjs-graphql-e2e-testing | docs/skills/tests/SKILL-graphql-e2e-testing.md | Écrire un test e2e sur une opération GraphQL |
+
+
 ## 14. Tests et définition de terminé
 
 Tests à adapter au périmètre :
