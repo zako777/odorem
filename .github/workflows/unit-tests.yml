@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   unit-tests:
-    name: backend unit tests
+    name: backend
     runs-on: ubuntu-latest
 
     defaults:
@@ -51,7 +51,7 @@ jobs:
         run: npm test -- unit
 
   mobile-tests:
-    name: mobile tests
+    name: mobile
     runs-on: ubuntu-latest
 
     defaults:
