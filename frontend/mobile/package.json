@@ -37,7 +37,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "test": "node --test tests/smoke.test.js",
     "lint": "expo lint"
   },
-  "private": true
+  "private": true,
+  "type": "module"
 }
