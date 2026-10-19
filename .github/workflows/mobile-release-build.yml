@@ -1,0 +1,94 @@
+name: Build mobile (iOS interne)
+
+# Construit l'application mobile (frontend/mobile) via EAS Build lors d'une PR
+# dont la branche source commence par "release/".
+# La construction iOS utilise la distribution interne EAS (provisioning ad hoc),
+# installable uniquement sur les iPhone dont l'UDID est enregistré.
+# Procédure de mise en place : docs/mobile-release-build.md
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: mobile-release-build-${{ github.event.pull_request.head.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-ios:
+    name: Build iOS (distribution interne)
+    # Seule une PR du dépôt, dont la branche source est préfixée release/, déclenche le build.
+    if: >-
+      startsWith(github.event.pull_request.head.ref, 'release/') &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v7
+
+      - name: Vérifier les prérequis du build
+        run: |
+          set -e
+          problems=0
+          if [ -z "$EXPO_TOKEN" ]; then
+            echo "::error::Secret GitHub EXPO_TOKEN manquant. Voir docs/mobile-release-build.md (créer un token sur expo.dev, puis Settings > Secrets and variables > Actions du dépôt)."
+            problems=1
+          fi
+          if ! jq -e '.expo.extra.eas.projectId' frontend/mobile/app.json > /dev/null 2>&1; then
+            echo "::error::Identifiant de projet EAS absent du frontend/mobile/app.json. Voir docs/mobile-release-build.md ('npx eas-cli init' depuis frontend/mobile, puis commit du projectId)."
+            problems=1
+          fi
+          if [ "$problems" -ne 0 ]; then
+            echo "::error::Prérequis EAS incomplets : le build ne peut pas démarrer. Suivez la checklist de docs/mobile-release-build.md."
+            exit 1
+          fi
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/mobile/package-lock.json
+
+      - name: Installer les dépendances mobile
+        working-directory: frontend/mobile
+        run: npm ci
+
+      - name: Se connecter à EAS
+        uses: expo/expo-github-action@v9
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Lancer le build EAS (iOS, distribution interne)
+        working-directory: frontend/mobile
+        run: |
+          set -o pipefail
+          eas build \
+            --platform ios \
+            --profile internal \
+            --non-interactive \
+            --wait \
+            2>&1 | tee eas-build.log
+
+      - name: Ajouter le lien du build au résumé
+        if: always()
+        working-directory: frontend/mobile
+        run: |
+          {
+            echo "## Build iOS (distribution interne)"
+            echo
+            if [ -f eas-build.log ]; then
+              url=$(grep -Eo 'https://expo\.dev/accounts/[^ )]+' eas-build.log | head -1 || true)
+              if [ -n "$url" ]; then
+                echo "Suivi du build : $url"
+              else
+                echo "Le log complet du build EAS est disponible dans l'étape précédente."
+              fi
+            else
+              echo "Le build n'a pas démarré : voir l'étape « Vérifier les prérequis du build »."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
