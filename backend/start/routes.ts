@@ -9,7 +9,10 @@
 
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
+import graphql from '@foadonis/graphql/services/main'
 import { controllers } from '#generated/controllers'
+
+graphql.registerRoute(router)
 
 router.get('/', () => {
   return { hello: 'world' }

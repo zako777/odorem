@@ -76,6 +76,7 @@ def test(ctx: Context) -> None:
         "APP_KEY=12345678901234567890123456789012 "
         "APP_URL=http://localhost:3333 "
         "SESSION_DRIVER=memory "
+        "DB_CONNECTION=sqlite "
         "DB_HOST=127.0.0.1 "
         "DB_PORT=5432 "
         "DB_USER=test "
@@ -83,6 +84,28 @@ def test(ctx: Context) -> None:
     )
     ctx.run(
         f"cd {shlex.quote(str(BACKEND))} && env {test_environment} npm test",
+        pty=True,
+    )
+
+
+@task
+def unit(ctx: Context) -> None:
+    """Run the backend unit test suite."""
+    test_environment = (
+        "NODE_ENV=test "
+        "HOST=localhost "
+        "LOG_LEVEL=info "
+        "APP_KEY=12345678901234567890123456789012 "
+        "APP_URL=http://localhost:3333 "
+        "SESSION_DRIVER=memory "
+        "DB_CONNECTION=sqlite "
+        "DB_HOST=127.0.0.1 "
+        "DB_PORT=5432 "
+        "DB_USER=test "
+        "DB_DATABASE=test"
+    )
+    ctx.run(
+        f"cd {shlex.quote(str(BACKEND))} && env {test_environment} npm test -- unit",
         pty=True,
     )
 

@@ -68,6 +68,7 @@ export default defineConfig({
   */
   preloads: [
     () => import('#start/routes'),
+    () => import('#start/graphql'),
     () => import('#start/kernel'),
     () => import('#start/validator'),
   ],
@@ -94,7 +95,7 @@ export default defineConfig({
         timeout: 30000,
       },
     ],
-    forceExit: false,
+    forceExit: true,
   },
 
   /*
