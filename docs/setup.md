@@ -1,11 +1,32 @@
 # Outils de développement
 
 Les tâches du projet utilisent [Invoke](https://www.pyinvoke.org/). Depuis la
-racine du dépôt, installer l'outil puis afficher les tâches disponibles :
+racine du dépôt, créer un environnement virtuel, l'activer, puis installer
+l'outil et afficher les tâches disponibles :
 
 ```sh
-python3 -m pip install -e infra
+python3 -m venv infra/.venv
+source infra/.venv/bin/activate
+python -m pip install -e infra
 inv -r infra --list
+```
+
+Les commandes Invoke créent automatiquement `backend/.env` à partir de
+`backend/.env.example` et génèrent une `APP_KEY` locale si ce fichier n'existe
+pas. Pour le faire immédiatement sans lancer une autre tâche :
+
+```sh
+inv -r infra install
+```
+
+Si `infra/.venv` existe déjà mais que `inv` renvoie une erreur
+`bad interpreter`, l'environnement a probablement été créé dans un autre
+emplacement. Il peut être régénéré avec :
+
+```sh
+python3 -m venv --clear infra/.venv
+source infra/.venv/bin/activate
+python -m pip install -e infra
 ```
 
 ## Tâches principales
