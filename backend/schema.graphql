@@ -8,6 +8,12 @@ type AuthPayload {
   user: UserPublicProfile!
 }
 
+type ConcentrationType {
+  code: String!
+  id: ID!
+  label: String!
+}
+
 input LoginUserInput {
   email: String!
   password: String!
@@ -18,9 +24,32 @@ type Mutation {
   register(input: RegisterUserInput!): AuthPayload!
 }
 
+type PerfumeType {
+  brand: String!
+  description: String
+  id: ID!
+  name: String!
+  products: [ProductType!]!
+}
+
+type PerfumesPage {
+  items: [PerfumeType!]!
+  page: Int!
+  perPage: Int!
+  total: Int!
+}
+
+type ProductType {
+  concentration: ConcentrationType!
+  id: ID!
+  volumeMl: Int!
+}
+
 type Query {
   demo: String!
   me: UserPublicProfile!
+  perfume(id: Int!): PerfumeType!
+  perfumes(page: Int, perPage: Int, search: String): PerfumesPage!
 }
 
 input RegisterUserInput {

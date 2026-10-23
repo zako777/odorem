@@ -37,7 +37,8 @@
     "#start/*": "./start/*.js",
     "#config/*": "./config/*.js",
     "#graphql/*": "./app/graphql/*.js",
-    "#user/*": "./app/user/*.js"
+    "#user/*": "./app/user/*.js",
+    "#catalogue/*": "./app/catalogue/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^8.5.2",
