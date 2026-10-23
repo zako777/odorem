@@ -6,7 +6,9 @@ import type { UserRepository } from '../../domain/user_repository.js'
 
 export class LucidUserRepository implements UserRepository {
   async findByEmail(email: string): Promise<UserEntity | null> {
-    const user = await User.query().whereRaw('LOWER(email) = ?', [email.trim().toLowerCase()]).first()
+    const user = await User.query()
+      .whereRaw('LOWER(email) = ?', [email.trim().toLowerCase()])
+      .first()
 
     if (!user) {
       return null
@@ -35,7 +37,11 @@ export class LucidUserRepository implements UserRepository {
     })
   }
 
-  async save(data: { email: string; fullName: string | null; password: string }): Promise<UserEntity> {
+  async save(data: {
+    email: string
+    fullName: string | null
+    password: string
+  }): Promise<UserEntity> {
     const user = await User.create({
       email: data.email,
       fullName: data.fullName,

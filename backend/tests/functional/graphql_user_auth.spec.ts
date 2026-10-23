@@ -102,7 +102,8 @@ test.group('GraphQL user auth', (group) => {
       query: registerMutation,
       variables: registerVariables(secondEmail, 'Second User'),
     })
-    const firstToken = (first.body() as GraphQLResponse<{ register: AuthPayload }>).data!.register.token
+    const firstToken = (first.body() as GraphQLResponse<{ register: AuthPayload }>).data!.register
+      .token
 
     const response = await client
       .post('/graphql')
