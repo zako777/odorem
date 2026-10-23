@@ -37,47 +37,6 @@ def _ensure_backend_env() -> None:
     print(f"Created {env_file} from {example_file}")
 
 
-def _test_environment() -> str:
-    """Return the test environment targeting PostgreSQL.
-
-    Tests always run against the dedicated `odorem_test` database, never the
-    development one.
-    """
-    test_user = os.environ.get("POSTGRES_USER", "odorem")
-    return (
-        "NODE_ENV=test "
-        "HOST=localhost "
-        "LOG_LEVEL=info "
-        "APP_KEY=12345678901234567890123456789012 "
-        "APP_URL=http://localhost:3333 "
-        "SESSION_DRIVER=memory "
-        "DB_CONNECTION=pg "
-        "DB_HOST=127.0.0.1 "
-        "DB_PORT=5432 "
-        f"DB_USER={test_user} "
-        f"DB_PASSWORD={os.environ.get('POSTGRES_PASSWORD', 'odorem')} "
-        "DB_DATABASE=odorem_test"
-    )
-
-
-def _ensure_test_database(ctx: Context) -> None:
-    """Start PostgreSQL and create the test database when missing."""
-    _compose(ctx, "up -d --wait postgres")
-    user = shlex.quote(os.environ.get("POSTGRES_USER", "odorem"))
-    check = ctx.run(
-        f"{COMPOSE} -f {shlex.quote(str(COMPOSE_FILE))} exec -T postgres psql "
-        f"-U {user} -d postgres -tAc "
-        "\"SELECT 1 FROM pg_database WHERE datname='odorem_test'\"",
-        hide=True,
-        warn=True,
-    )
-    if not check or check.stdout.strip() != "1":
-        _compose(
-            ctx,
-            f"exec -T postgres psql -U {user} -d postgres -qc 'CREATE DATABASE odorem_test'",
-        )
-
-
 def _npm(ctx: Context, directory: Path, command: str) -> None:
     """Run an npm script in a project directory."""
     if directory == BACKEND:
@@ -109,10 +68,22 @@ def build(ctx: Context) -> None:
 
 @task
 def test(ctx: Context) -> None:
-    """Run the backend test suite against PostgreSQL (odorem_test database)."""
-    _ensure_test_database(ctx)
+    """Run the backend test suite."""
+    test_environment = (
+        "NODE_ENV=test "
+        "HOST=localhost "
+        "LOG_LEVEL=info "
+        "APP_KEY=12345678901234567890123456789012 "
+        "APP_URL=http://localhost:3333 "
+        "SESSION_DRIVER=memory "
+        "DB_CONNECTION=sqlite "
+        "DB_HOST=127.0.0.1 "
+        "DB_PORT=5432 "
+        "DB_USER=test "
+        "DB_DATABASE=test"
+    )
     ctx.run(
-        f"cd {shlex.quote(str(BACKEND))} && env {_test_environment()} npm test",
+        f"cd {shlex.quote(str(BACKEND))} && env {test_environment} npm test",
         pty=True,
     )
 
@@ -120,8 +91,21 @@ def test(ctx: Context) -> None:
 @task
 def unit(ctx: Context) -> None:
     """Run the backend unit test suite."""
+    test_environment = (
+        "NODE_ENV=test "
+        "HOST=localhost "
+        "LOG_LEVEL=info "
+        "APP_KEY=12345678901234567890123456789012 "
+        "APP_URL=http://localhost:3333 "
+        "SESSION_DRIVER=memory "
+        "DB_CONNECTION=sqlite "
+        "DB_HOST=127.0.0.1 "
+        "DB_PORT=5432 "
+        "DB_USER=test "
+        "DB_DATABASE=test"
+    )
     ctx.run(
-        f"cd {shlex.quote(str(BACKEND))} && env {_test_environment()} npm test -- unit",
+        f"cd {shlex.quote(str(BACKEND))} && env {test_environment} npm test -- unit",
         pty=True,
     )
 

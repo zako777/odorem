@@ -1,0 +1,222 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  clean-commits:
+    name: Clean Commits
+    if: >-
+      !startsWith(github.head_ref, 'release/') &&
+      !startsWith(github.base_ref, 'release/') &&
+      !startsWith(github.head_ref, 'releases/') &&
+      !startsWith(github.base_ref, 'releases/') &&
+      github.head_ref != 'release' &&
+      github.base_ref != 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      clean_passed: ${{ steps.squash.outputs.clean_passed }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Squash and strip co-authors
+        id: squash
+        env:
+          HAS_PAT: ${{ secrets.GH_PAT != '' }}
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git fetch origin ${{ github.head_ref }}
+          REMOTE_HEAD_SHA=$(git rev-parse origin/${{ github.head_ref }})
+          EVENT_HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          if [ "$REMOTE_HEAD_SHA" != "$EVENT_HEAD_SHA" ]; then
+            echo "Run obsolète: la branche a avancé ($EVENT_HEAD_SHA -> $REMOTE_HEAD_SHA)."
+            echo "clean_passed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          COMMIT_COUNT=$(git rev-list --count origin/${{ github.base_ref }}..HEAD)
+          HAS_COAUTHORS=$(git log origin/${{ github.base_ref }}..HEAD | grep -i -c "^Co-authored-by:" || true)
+
+          if [ "$COMMIT_COUNT" -le 1 ] && [ "$HAS_COAUTHORS" -eq 0 ]; then
+            echo "Commits propres ($COMMIT_COUNT commit, 0 co-auteur). Aucune modification nécessaire."
+            echo "clean_passed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          FIRST_SHA=$(git rev-list --reverse origin/${{ github.base_ref }}..HEAD | head -n 1)
+
+          ORIGINAL_NAME=$(git log -n 1 --format="%an" "$FIRST_SHA")
+          ORIGINAL_EMAIL=$(git log -n 1 --format="%ae" "$FIRST_SHA")
+          ORIGINAL_DATE=$(git log -n 1 --format="%aD" "$FIRST_SHA")
+          FIRST_COMMIT_MSG=$(git log -n 1 --format="%B" "$FIRST_SHA")
+
+          if [ -z "$ORIGINAL_NAME" ] || [ -z "$ORIGINAL_EMAIL" ]; then
+            ORIGINAL_NAME="${{ github.actor }}"
+            ORIGINAL_EMAIL="${{ github.actor }}@users.noreply.github.com"
+          fi
+
+          # Configurer Git avec l'identité du développeur (pas de bot github-actions en committer/co-auteur)
+          git config user.name "$ORIGINAL_NAME"
+          git config user.email "$ORIGINAL_EMAIL"
+
+          # Retirer toute mention de co-auteur du message de commit
+          CLEAN_MSG=$(echo "$FIRST_COMMIT_MSG" | grep -v -i "^Co-authored-by:" || true)
+
+          git reset --soft origin/${{ github.base_ref }}
+
+          if git diff --cached --quiet; then
+            echo "Aucune modification par rapport à la branche de base."
+            echo "clean_passed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Valider le commit avec l'auteur et le committer originaux
+          GIT_AUTHOR_NAME="$ORIGINAL_NAME" \
+          GIT_AUTHOR_EMAIL="$ORIGINAL_EMAIL" \
+          GIT_AUTHOR_DATE="$ORIGINAL_DATE" \
+          GIT_COMMITTER_NAME="$ORIGINAL_NAME" \
+          GIT_COMMITTER_EMAIL="$ORIGINAL_EMAIL" \
+          GIT_COMMITTER_DATE="$ORIGINAL_DATE" \
+          git commit -m "$CLEAN_MSG"
+
+          if ! git push --force-with-lease origin HEAD:${{ github.head_ref }}; then
+            git fetch origin ${{ github.head_ref }}
+            REMOTE_HEAD_SHA_AFTER_PUSH=$(git rev-parse origin/${{ github.head_ref }})
+
+            if [ "$REMOTE_HEAD_SHA_AFTER_PUSH" != "$EVENT_HEAD_SHA" ]; then
+              echo "Run obsolète: la branche a changé pendant le push ($EVENT_HEAD_SHA -> $REMOTE_HEAD_SHA_AFTER_PUSH)."
+              echo "clean_passed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            echo "::error::Échec du push du commit nettoyé."
+            exit 1
+          fi
+
+          if [ "$HAS_PAT" = "true" ]; then
+            echo "clean_passed=false" >> "$GITHUB_OUTPUT"
+            echo "Commits nettoyés et poussés avec GH_PAT. Les autres étapes s'exécuteront sur le nouveau run déclenché."
+          else
+            echo "::warning::Secret GH_PAT non configuré. Pour un déclenchement automatique sur le commit nettoyé, ajoutez un GH_PAT dans les secrets du dépôt."
+            echo "clean_passed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  security-scan:
+    name: Security Checks
+    needs: [clean-commits]
+    if: >-
+      always() &&
+      !cancelled() &&
+      !contains(needs.*.result, 'failure') &&
+      (needs.clean-commits.outputs.clean_passed == 'true' || needs.clean-commits.result == 'skipped') &&
+      github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+  unit-tests:
+    name: backend
+    needs: [clean-commits]
+    if: >-
+      always() &&
+      !cancelled() &&
+      !contains(needs.*.result, 'failure') &&
+      (needs.clean-commits.outputs.clean_passed == 'true' || needs.clean-commits.result == 'skipped')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      NODE_ENV: test
+      HOST: localhost
+      LOG_LEVEL: info
+      APP_KEY: 12345678901234567890123456789012
+      APP_URL: http://localhost:3333
+      SESSION_DRIVER: memory
+      DB_CONNECTION: sqlite
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USER: test
+      DB_DATABASE: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm test -- unit
+
+  mobile-tests:
+    name: mobile
+    needs: [clean-commits]
+    if: >-
+      always() &&
+      !cancelled() &&
+      !contains(needs.*.result, 'failure') &&
+      (needs.clean-commits.outputs.clean_passed == 'true' || needs.clean-commits.result == 'skipped')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend/mobile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+          cache-dependency-path: frontend/mobile/package-lock.json
+
+      - name: Install mobile dependencies
+        run: npm ci
+
+      - name: Run mobile smoke tests
+        run: npm test

@@ -16,7 +16,12 @@ export default class InMemoryUserRepository implements UserRepository {
 
   async save(data: UserPersistenceInput) {
     this.lastSavedInput = data
-    const user = new UserEntity(this.nextId++, data.email, data.fullName, data.password)
+    const user = new UserEntity(
+      this.nextId++,
+      data.email,
+      data.fullName,
+      data.password
+    )
     this.users.push(user)
     return user
   }

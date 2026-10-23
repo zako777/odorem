@@ -67,13 +67,6 @@ docker compose -f infra/docker/compose.yml up -d postgres
 
 Les données persistent dans le volume Docker `postgres_data`.
 
-### Tests
-
-`inv -r infra test` démarre le service `postgres` si besoin et exécute la
-suite backend contre PostgreSQL, sur une base dédiée `odorem_test` (créée
-automatiquement si absente). Ne jamais utiliser la base de développement pour
-les tests.
-
 ### Configurer le backend
 
 Créer `backend/.env` (non versionné) à partir de `backend/.env.example`, puis
