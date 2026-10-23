@@ -11,12 +11,7 @@ test.group('LoginUser', () => {
     // Arrange
     const repository = new InMemoryUserRepository()
     repository.users.push(
-      new UserEntity(
-        1,
-        'alice@example.com',
-        'Alice',
-        await hash.make('supersecret123')
-      )
+      new UserEntity(1, 'alice@example.com', 'Alice', await hash.make('supersecret123'))
     )
     const loginUser = new LoginUser(repository)
 

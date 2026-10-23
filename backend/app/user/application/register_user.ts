@@ -1,5 +1,5 @@
 import { UserAlreadyExistsError } from '../domain/errors.js'
-import { UserEntity } from '../domain/user.js'
+import { type UserEntity } from '../domain/user.js'
 import type { UserRepository } from '../domain/user_repository.js'
 
 export type RegisterUserInput = {
