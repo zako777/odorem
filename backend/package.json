@@ -39,7 +39,8 @@
     "#graphql/*": "./app/graphql/*.js",
     "#user/*": "./app/user/*.js",
     "#catalogue/*": "./app/catalogue/*.js",
-    "#collection/*": "./app/collection/*.js"
+    "#collection/*": "./app/collection/*.js",
+    "#wishlist/*": "./app/wishlist/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^8.5.2",

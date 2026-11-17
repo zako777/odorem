@@ -8,6 +8,7 @@ import type {
 } from '#collection/domain/collection_repository'
 import { PossessionEntity } from '#collection/domain/possession'
 import type { PossessionCondition } from '#collection/domain/possession'
+import { upsertPossession } from '#collection/infrastructure/persistence/possession_upsert'
 
 export class LucidCollectionRepository implements CollectionRepository {
   async listCollection(userId: number, page: number, perPage: number) {
@@ -31,12 +32,7 @@ export class LucidCollectionRepository implements CollectionRepository {
   }
 
   async addOrIncrement(userId: number, productId: number): Promise<PossessionEntity> {
-    // Atomic upsert: concurrent adds increment instead of hitting the unique constraint.
-    await db
-      .table('possessions')
-      .insert({ user_id: userId, product_id: productId, created_at: new Date() })
-      .onConflict(['user_id', 'product_id'])
-      .merge({ quantity: db.raw('possessions.quantity + 1'), updated_at: new Date() })
+    await upsertPossession(db, userId, productId)
 
     const possession = await Possession.query()
       .where('userId', userId)

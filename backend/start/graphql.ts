@@ -18,6 +18,7 @@ graphql.resolvers([
   () => import('#graphql/resolvers/collection_resolver'),
   () => import('#graphql/resolvers/demo_resolver'),
   () => import('#graphql/resolvers/user_resolver'),
+  () => import('#graphql/resolvers/wishlist_resolver'),
 ])
 
 graphql.hmr(app.makePath('app/graphql/resolvers'))

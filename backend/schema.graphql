@@ -36,8 +36,11 @@ input LoginUserInput {
 
 type Mutation {
   addToCollection(productId: Int!): PossessionType!
+  addToWishlist(productId: Int!): WishlistItemType!
   login(input: LoginUserInput!): AuthPayload!
+  moveWishlistToCollection(itemId: Int!): Boolean!
   register(input: RegisterUserInput!): AuthPayload!
+  removeFromWishlist(itemId: Int!): Boolean!
   removePossession(possessionId: Int!): Boolean!
   updatePossession(input: UpdatePossessionInput!, possessionId: Int!): PossessionType!
 }
@@ -76,6 +79,7 @@ type Query {
   demo: String!
   me: UserPublicProfile!
   myCollection(page: Int, perPage: Int): CollectionPage!
+  myWishlist(page: Int, perPage: Int): WishlistPage!
   perfume(id: Int!): PerfumeType!
   perfumes(page: Int, perPage: Int, search: String): PerfumesPage!
 }
@@ -98,4 +102,25 @@ type UserPublicProfile {
   email: String!
   fullName: String
   id: ID!
+}
+
+type WishlistEntryType {
+  brand: String!
+  concentrationCode: String!
+  id: ID!
+  perfumeName: String!
+  productId: ID!
+  volumeMl: Int!
+}
+
+type WishlistItemType {
+  id: ID!
+  productId: ID!
+}
+
+type WishlistPage {
+  items: [WishlistEntryType!]!
+  page: Int!
+  perPage: Int!
+  total: Int!
 }
