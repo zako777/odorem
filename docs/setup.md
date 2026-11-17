@@ -113,3 +113,17 @@ Règle : une seule migration de création par table. Avant d'en ajouter une,
 vérifier qu'aucune migration existante ne crée déjà cette table. Tout
 rollback, reset ou suppression de volume nécessite une validation explicite
 et une cible identifiée (voir CLAUDE.md).
+
+### Données de démonstration
+
+Le catalogue de démonstration (concentrations, parfums, produits et codes-barres)
+se charge depuis `backend/` avec :
+
+```sh
+node ace.js db:seed --files=database/seeders/demo_catalogue_seeder.ts
+```
+
+Le seeder est rejouable et ne crée pas de doublon. Les codes-barres sont
+fictifs (`0000000000001`, `0000000000002`, `0000000000003`) et ne doivent pas
+être traités comme de vrais EAN.
+

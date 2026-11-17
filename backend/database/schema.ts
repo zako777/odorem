@@ -43,6 +43,21 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class BarcodeSchema extends BaseModel {
+  static $columns = ['code', 'createdAt', 'id', 'productId', 'updatedAt'] as const
+  $columns = BarcodeSchema.$columns
+  @column()
+  declare code: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare productId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class ConcentrationSchema extends BaseModel {
   static $columns = ['code', 'createdAt', 'id', 'label', 'updatedAt'] as const
   $columns = ConcentrationSchema.$columns

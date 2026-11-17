@@ -12,9 +12,11 @@ import {
 } from '@foadonis/graphql'
 
 import { GetPerfume } from '#catalogue/application/get_perfume'
+import { FindProductByBarcode } from '#catalogue/application/find_product_by_barcode'
 import { ListProductsByPerfume } from '#catalogue/application/list_products_by_perfume'
 import { SearchPerfumes } from '#catalogue/application/search_perfumes'
 import { LucidCatalogueRepository } from '#catalogue/infrastructure/persistence/lucid_catalogue_repository'
+import { barcodeValidator } from '#validators/barcode'
 
 @ObjectType()
 class ConcentrationType {
@@ -70,12 +72,37 @@ class PerfumesPage {
   perPage!: number
 }
 
+@ObjectType()
+class ScannedProductType {
+  @Field(() => ID)
+  productId!: number
+
+  @Field(() => Int)
+  volumeMl!: number
+
+  @Field()
+  concentrationCode!: string
+
+  @Field()
+  concentrationLabel!: string
+
+  @Field(() => ID)
+  perfumeId!: number
+
+  @Field()
+  perfumeName!: string
+
+  @Field()
+  brand!: string
+}
+
 @Resolver(() => PerfumeType)
 @Authorized()
 export default class CatalogueResolver {
   private readonly repository = new LucidCatalogueRepository()
   private readonly searchPerfumes = new SearchPerfumes(this.repository)
   private readonly getPerfume = new GetPerfume(this.repository)
+  private readonly findProductByBarcode = new FindProductByBarcode(this.repository)
   private readonly listProductsByPerfume = new ListProductsByPerfume(this.repository)
 
   @Query(() => PerfumesPage)
@@ -90,6 +117,12 @@ export default class CatalogueResolver {
   @Query(() => PerfumeType)
   async perfume(@Arg('id', () => Int) id: number) {
     return this.getPerfume.execute(id)
+  }
+
+  @Query(() => ScannedProductType, { nullable: true })
+  async productByBarcode(@Arg('code', () => String) code: string) {
+    const { code: normalized } = await barcodeValidator.validate({ code })
+    return this.findProductByBarcode.execute(normalized)
   }
 
   @FieldResolver(() => [ProductType])

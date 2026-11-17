@@ -82,6 +82,7 @@ type Query {
   myWishlist(page: Int, perPage: Int): WishlistPage!
   perfume(id: Int!): PerfumeType!
   perfumes(page: Int, perPage: Int, search: String): PerfumesPage!
+  productByBarcode(code: String!): ScannedProductType
 }
 
 input RegisterUserInput {
@@ -89,6 +90,16 @@ input RegisterUserInput {
   fullName: String
   password: String!
   passwordConfirmation: String!
+}
+
+type ScannedProductType {
+  brand: String!
+  concentrationCode: String!
+  concentrationLabel: String!
+  perfumeId: ID!
+  perfumeName: String!
+  productId: ID!
+  volumeMl: Int!
 }
 
 input UpdatePossessionInput {

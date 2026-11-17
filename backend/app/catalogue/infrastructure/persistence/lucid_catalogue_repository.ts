@@ -1,7 +1,9 @@
 import Perfume from '#models/perfume'
 import Product from '#models/product'
+import Barcode from '#models/barcode'
 import type {
   CatalogueRepository,
+  ScannedProduct,
   SearchPerfumesQuery,
 } from '#catalogue/domain/catalogue_repository'
 import { PerfumeEntity } from '#catalogue/domain/perfume'
@@ -41,5 +43,28 @@ export class LucidCatalogueRepository implements CatalogueRepository {
   async findProductById(id: number): Promise<ProductEntity | null> {
     const product = await Product.query().where('id', id).preload('concentration').first()
     return product ? ProductEntity.fromPersistence(product) : null
+  }
+
+  async findProductByBarcode(code: string): Promise<ScannedProduct | null> {
+    const barcode = await Barcode.query()
+      .where('code', code)
+      .preload('product', (query) => {
+        query.preload('perfume').preload('concentration')
+      })
+      .first()
+    if (!barcode) {
+      return null
+    }
+
+    const { product } = barcode
+    return {
+      productId: product.id,
+      volumeMl: product.volumeMl,
+      concentrationCode: product.concentration.code,
+      concentrationLabel: product.concentration.label,
+      perfumeId: product.perfume.id,
+      perfumeName: product.perfume.name,
+      brand: product.perfume.brand,
+    }
   }
 }
