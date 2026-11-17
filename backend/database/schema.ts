@@ -75,6 +75,39 @@ export class PerfumeSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class PossessionSchema extends BaseModel {
+  static $columns = [
+    'comment',
+    'condition',
+    'createdAt',
+    'id',
+    'productId',
+    'quantity',
+    'rating',
+    'updatedAt',
+    'userId',
+  ] as const
+  $columns = PossessionSchema.$columns
+  @column()
+  declare comment: string | null
+  @column()
+  declare condition: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare productId: number
+  @column()
+  declare quantity: number
+  @column()
+  declare rating: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class ProductSchema extends BaseModel {
   static $columns = [
     'concentrationId',

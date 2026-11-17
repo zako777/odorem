@@ -37,4 +37,9 @@ export class LucidCatalogueRepository implements CatalogueRepository {
 
     return products.map((product) => ProductEntity.fromPersistence(product))
   }
+
+  async findProductById(id: number): Promise<ProductEntity | null> {
+    const product = await Product.query().where('id', id).preload('concentration').first()
+    return product ? ProductEntity.fromPersistence(product) : null
+  }
 }

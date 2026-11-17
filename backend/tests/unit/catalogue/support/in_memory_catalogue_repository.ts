@@ -26,6 +26,10 @@ export default class InMemoryCatalogueRepository implements CatalogueRepository 
     return this.products.filter((product) => product.perfumeId === perfumeId)
   }
 
+  async findProductById(id: number) {
+    return this.products.find((product) => product.id === id) ?? null
+  }
+
   addPerfume(id: number, name: string, brand: string, description: string | null = null) {
     const perfume = new PerfumeEntity(id, name, brand, description)
     this.perfumes.push(perfume)

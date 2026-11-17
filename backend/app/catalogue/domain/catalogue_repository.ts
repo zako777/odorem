@@ -17,5 +17,6 @@ export type PerfumesPage = {
 export interface CatalogueRepository {
   searchPerfumes(query: SearchPerfumesQuery): Promise<{ items: PerfumeEntity[]; total: number }>
   findPerfumeById(id: number): Promise<PerfumeEntity | null>
+  findProductById(id: number): Promise<ProductEntity | null>
   listProductsByPerfume(perfumeId: number): Promise<ProductEntity[]>
 }

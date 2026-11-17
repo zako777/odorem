@@ -15,6 +15,7 @@ import app from '@adonisjs/core/services/app'
 
 graphql.resolvers([
   () => import('#graphql/resolvers/catalogue_resolver'),
+  () => import('#graphql/resolvers/collection_resolver'),
   () => import('#graphql/resolvers/demo_resolver'),
   () => import('#graphql/resolvers/user_resolver'),
 ])

@@ -8,6 +8,21 @@ type AuthPayload {
   user: UserPublicProfile!
 }
 
+type CollectionEntryType {
+  brand: String!
+  concentrationCode: String!
+  perfumeName: String!
+  possession: PossessionType!
+  volumeMl: Int!
+}
+
+type CollectionPage {
+  items: [CollectionEntryType!]!
+  page: Int!
+  perPage: Int!
+  total: Int!
+}
+
 type ConcentrationType {
   code: String!
   id: ID!
@@ -20,8 +35,11 @@ input LoginUserInput {
 }
 
 type Mutation {
+  addToCollection(productId: Int!): PossessionType!
   login(input: LoginUserInput!): AuthPayload!
   register(input: RegisterUserInput!): AuthPayload!
+  removePossession(possessionId: Int!): Boolean!
+  updatePossession(input: UpdatePossessionInput!, possessionId: Int!): PossessionType!
 }
 
 type PerfumeType {
@@ -39,6 +57,15 @@ type PerfumesPage {
   total: Int!
 }
 
+type PossessionType {
+  comment: String
+  condition: String!
+  id: ID!
+  productId: ID!
+  quantity: Int!
+  rating: Int
+}
+
 type ProductType {
   concentration: ConcentrationType!
   id: ID!
@@ -48,6 +75,7 @@ type ProductType {
 type Query {
   demo: String!
   me: UserPublicProfile!
+  myCollection(page: Int, perPage: Int): CollectionPage!
   perfume(id: Int!): PerfumeType!
   perfumes(page: Int, perPage: Int, search: String): PerfumesPage!
 }
@@ -57,6 +85,13 @@ input RegisterUserInput {
   fullName: String
   password: String!
   passwordConfirmation: String!
+}
+
+input UpdatePossessionInput {
+  comment: String
+  condition: String
+  quantity: Int
+  rating: Int
 }
 
 type UserPublicProfile {

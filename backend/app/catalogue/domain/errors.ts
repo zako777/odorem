@@ -4,3 +4,10 @@ export class PerfumeNotFoundError extends Error {
     this.name = 'PerfumeNotFoundError'
   }
 }
+
+export class ProductNotFoundError extends Error {
+  constructor(id: number) {
+    super(`Product with id "${id}" was not found.`)
+    this.name = 'ProductNotFoundError'
+  }
+}
