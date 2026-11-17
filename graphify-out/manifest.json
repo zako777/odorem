@@ -6,14 +6,14 @@
     "semantic_hash": ""
   },
   "backend/.adonisjs/client/data.d.ts": {
-    "mtime": 1794922910.721013,
-    "seen": 1794922920.7581673,
+    "mtime": 1794923118.0652823,
+    "seen": 1794923125.364058,
     "ast_hash": "12fca2c440690056895ea09f7273bdbc",
     "semantic_hash": "12fca2c440690056895ea09f7273bdbc"
   },
   "backend/.adonisjs/client/manifest.d.ts": {
-    "mtime": 1794922910.721013,
-    "seen": 1794922920.7581713,
+    "mtime": 1794923118.0652823,
+    "seen": 1794923125.3640614,
     "ast_hash": "ed2a0227255d7155ec4d6a3b828c28db",
     "semantic_hash": "ed2a0227255d7155ec4d6a3b828c28db"
   },
@@ -36,20 +36,20 @@
     "semantic_hash": "eab18e03836a10550f78afc58a2138f3"
   },
   "backend/.adonisjs/server/controllers.ts": {
-    "mtime": 1794922910.721013,
-    "seen": 1794922920.75818,
+    "mtime": 1794923118.0616157,
+    "seen": 1794923125.3640678,
     "ast_hash": "5ead25b23027ac413d65621432d39734",
     "semantic_hash": "5ead25b23027ac413d65621432d39734"
   },
   "backend/.adonisjs/server/events.ts": {
-    "mtime": 1794922910.7173464,
-    "seen": 1794922920.7581818,
+    "mtime": 1794923118.0616157,
+    "seen": 1794923125.3640695,
     "ast_hash": "d30fbc483baa5c02e5686cab75f8fe2b",
     "semantic_hash": "d30fbc483baa5c02e5686cab75f8fe2b"
   },
   "backend/.adonisjs/server/listeners.ts": {
-    "mtime": 1794922910.7173464,
-    "seen": 1794922920.7581835,
+    "mtime": 1794923118.0616157,
+    "seen": 1794923125.3640704,
     "ast_hash": "11c1e641463e3b0e2d9990879ee24fd6",
     "semantic_hash": "11c1e641463e3b0e2d9990879ee24fd6"
   },
@@ -282,9 +282,9 @@
     "semantic_hash": "013320d25ca4db5db316a5bdb124c7b5"
   },
   "backend/database/schema.ts": {
-    "mtime": 1794922558.8503935,
-    "seen": 1794922704.9829733,
-    "ast_hash": "f5732050c25ab0d92a2f2e22d13e7959",
+    "mtime": 1794923107.241039,
+    "seen": 1794923125.3641548,
+    "ast_hash": "a44731ef55400c3cacdfa42143adab6b",
     "semantic_hash": ""
   },
   "backend/database/schema_rules.ts": {
@@ -300,9 +300,9 @@
     "semantic_hash": "e28439fadeba56796ccd2f9fcfa28086"
   },
   "backend/package.json": {
-    "mtime": 1792750652.5083828,
-    "seen": 1794922704.9829767,
-    "ast_hash": "2de31a7d293fa423018762b6c7a4265d",
+    "mtime": 1794923064.0615392,
+    "seen": 1794923125.3641582,
+    "ast_hash": "c3741250c6191b1ddd39cdcad0b343ea",
     "semantic_hash": ""
   },
   "backend/providers/api_provider.ts": {
@@ -318,9 +318,9 @@
     "semantic_hash": "49378200ab950391b6d2fefb05175a3f"
   },
   "backend/start/graphql.ts": {
-    "mtime": 1794922910.721013,
-    "seen": 1794922920.7583742,
-    "ast_hash": "3f6ce247f406e4a4ac7b92b9d1eb6764",
+    "mtime": 1794923118.0652823,
+    "seen": 1794923125.3641613,
+    "ast_hash": "cf3f7bfdd2a36c08d6a1c32aeef88aea",
     "semantic_hash": ""
   },
   "backend/start/kernel.ts": {
@@ -570,9 +570,9 @@
     "semantic_hash": ""
   },
   "backend/app/collection/infrastructure/persistence/lucid_collection_repository.ts": {
-    "mtime": 1794922863.0973907,
-    "seen": 1794922920.7582119,
-    "ast_hash": "0dc081220e8134c0788a9c52e66d5d65",
+    "mtime": 1794923064.3915389,
+    "seen": 1794923125.3640926,
+    "ast_hash": "201cca8c311851c0b27d9c8eb003face",
     "semantic_hash": ""
   },
   "backend/app/graphql/resolvers/catalogue_resolver.ts": {
@@ -705,6 +705,96 @@
     "mtime": 1791790404.131966,
     "seen": 1794922704.983048,
     "ast_hash": "7f577b1686a336777703aac6196489a3",
+    "semantic_hash": ""
+  },
+  "backend/app/collection/infrastructure/persistence/possession_upsert.ts": {
+    "mtime": 1794923107.241039,
+    "seen": 1794923125.3640945,
+    "ast_hash": "9d29d8423b8734d555ab207c67263146",
+    "semantic_hash": ""
+  },
+  "backend/app/graphql/resolvers/wishlist_resolver.ts": {
+    "mtime": 1794923060.9192069,
+    "seen": 1794923125.3641047,
+    "ast_hash": "0da6e81c725cf74ace0ef0cf9823cde4",
+    "semantic_hash": ""
+  },
+  "backend/app/models/wishlist_item.ts": {
+    "mtime": 1794923054.0038762,
+    "seen": 1794923125.3641157,
+    "ast_hash": "08328a1243ddb791b32731d82503b788",
+    "semantic_hash": ""
+  },
+  "backend/app/wishlist/application/add_to_wishlist.ts": {
+    "mtime": 1794923060.3728738,
+    "seen": 1794923125.364126,
+    "ast_hash": "52d1dea0f94bdf272bfa642efbae6ce7",
+    "semantic_hash": ""
+  },
+  "backend/app/wishlist/application/list_wishlist.ts": {
+    "mtime": 1794923060.4975405,
+    "seen": 1794923125.364127,
+    "ast_hash": "df5a099bfd534a19bcba8a04b5373e89",
+    "semantic_hash": ""
+  },
+  "backend/app/wishlist/application/move_wishlist_to_collection.ts": {
+    "mtime": 1794923060.5892072,
+    "seen": 1794923125.364128,
+    "ast_hash": "8e5bc3405a441383f8e41c73652f876b",
+    "semantic_hash": ""
+  },
+  "backend/app/wishlist/application/remove_from_wishlist.ts": {
+    "mtime": 1794923060.5488737,
+    "seen": 1794923125.3641288,
+    "ast_hash": "489ba540f00a4f4dc6ff24b7aba4155b",
+    "semantic_hash": ""
+  },
+  "backend/app/wishlist/domain/errors.ts": {
+    "mtime": 1794923054.3925428,
+    "seen": 1794923125.3641295,
+    "ast_hash": "ffaa52f0ece010fe36be6a58b74cec4c",
+    "semantic_hash": ""
+  },
+  "backend/app/wishlist/domain/wishlist_item.ts": {
+    "mtime": 1794923054.1872096,
+    "seen": 1794923125.3641303,
+    "ast_hash": "cebb1e3f997c6ed81efa89a2f9e6e936",
+    "semantic_hash": ""
+  },
+  "backend/app/wishlist/domain/wishlist_repository.ts": {
+    "mtime": 1794923054.3485427,
+    "seen": 1794923125.3641312,
+    "ast_hash": "20e21d6cec23f5a19060ae4e46f210cb",
+    "semantic_hash": ""
+  },
+  "backend/app/wishlist/infrastructure/persistence/lucid_wishlist_repository.ts": {
+    "mtime": 1794923107.241039,
+    "seen": 1794923125.3641322,
+    "ast_hash": "7ea70ba02ddd8528e9fc368c34319b37",
+    "semantic_hash": ""
+  },
+  "backend/database/migrations/1794873600000_create_wishlist_items_table.ts": {
+    "mtime": 1794923107.241039,
+    "seen": 1794923125.3641539,
+    "ast_hash": "847ac2c8673512e7146d2a67eb8cb242",
+    "semantic_hash": ""
+  },
+  "backend/tests/functional/wishlist.spec.ts": {
+    "mtime": 1794923107.241039,
+    "seen": 1794923125.36417,
+    "ast_hash": "defd5661c58571559d491daff551151b",
+    "semantic_hash": ""
+  },
+  "backend/tests/unit/wishlist/support/in_memory_wishlist_repository.ts": {
+    "mtime": 1794923107.2447057,
+    "seen": 1794923125.3641806,
+    "ast_hash": "198f0d4d60250fd6a4df378e8d4c7fca",
+    "semantic_hash": ""
+  },
+  "backend/tests/unit/wishlist/wishlist.spec.ts": {
+    "mtime": 1794923092.3983781,
+    "seen": 1794923125.3641813,
+    "ast_hash": "652a444a0e9b9ce31b5f7a534d307b74",
     "semantic_hash": ""
   }
 }
