@@ -384,27 +384,27 @@
     "semantic_hash": "b7702fa437984a1ee32b9331d3eeb108"
   },
   "frontend/mobile/app.json": {
-    "mtime": 1794923765.0820656,
-    "seen": 1794923812.7835135,
-    "ast_hash": "a5dd16d78692a8f722ab84ec86d49435",
+    "mtime": 1795107669.0698605,
+    "seen": 1795107732.6423805,
+    "ast_hash": "b261e1cc4d739444622b0254c658aeff",
     "semantic_hash": ""
   },
   "frontend/mobile/package.json": {
-    "mtime": 1794923699.5141048,
-    "seen": 1794923812.783516,
-    "ast_hash": "835bb28ad4fd04ecd5cdb4c77d0b6a68",
+    "mtime": 1795107608.9300253,
+    "seen": 1795107732.6423836,
+    "ast_hash": "441efff6e750045afd17e15c29320e28",
     "semantic_hash": ""
   },
   "frontend/mobile/src/app/_layout.tsx": {
-    "mtime": 1791790404.131966,
-    "seen": 1792662139.6594896,
-    "ast_hash": "fe7ef48ea1d328b0fc66d2a934bc62c2",
-    "semantic_hash": "fe7ef48ea1d328b0fc66d2a934bc62c2"
+    "mtime": 1795171921.5068574,
+    "seen": 1795171945.5410664,
+    "ast_hash": "93c95522d56b2456c97a809b1214c16d",
+    "semantic_hash": ""
   },
   "frontend/mobile/src/app/index.tsx": {
-    "mtime": 1794923765.4487321,
-    "seen": 1794923812.7835183,
-    "ast_hash": "d75adb9a1469b2835a48ce322d156d25",
+    "mtime": 1795171921.1731908,
+    "seen": 1795171945.5410697,
+    "ast_hash": "76c8b02d024d0259cb74261a79dbe350",
     "semantic_hash": ""
   },
   "frontend/mobile/tests/smoke.test.js": {
@@ -444,9 +444,9 @@
     "semantic_hash": "51c24dc42934f998376c2e9086f33616"
   },
   "docs/setup.md": {
-    "mtime": 1794923568.748763,
-    "seen": 1794923587.1175783,
-    "ast_hash": "78e3fa4ed46319e329d61b94cc98df50",
+    "mtime": 1795107711.7883508,
+    "seen": 1795107732.6424036,
+    "ast_hash": "d67384543c4fe45f3050f1adbcb833dd",
     "semantic_hash": ""
   },
   "docs/skills/adonis/graphql.md": {
@@ -840,9 +840,45 @@
     "semantic_hash": ""
   },
   "frontend/mobile/src/app/scan.tsx": {
-    "mtime": 1794923803.6711402,
-    "seen": 1794923812.7835202,
-    "ast_hash": "7e1c0ac37da51426357a9866b6fd338f",
+    "mtime": 1795171924.0735233,
+    "seen": 1795171945.5410817,
+    "ast_hash": "826e5244f2bd78586b3979e342c1b37e",
+    "semantic_hash": ""
+  },
+  "frontend/mobile/src/lib/api.ts": {
+    "mtime": 1795107693.3963535,
+    "seen": 1795107732.6423895,
+    "ast_hash": "f9efc96d8d3859f9caba24203e120027",
+    "semantic_hash": ""
+  },
+  "frontend/mobile/src/lib/session.tsx": {
+    "mtime": 1795107693.7116866,
+    "seen": 1795107732.6423912,
+    "ast_hash": "a7d4019e71a5a015531878c187c305ad",
+    "semantic_hash": ""
+  },
+  "frontend/mobile/src/lib/graphql.ts": {
+    "mtime": 1795109214.396356,
+    "seen": 1795109226.5929754,
+    "ast_hash": "df0197b8f17a88f0a1c4a65bdf712392",
+    "semantic_hash": ""
+  },
+  "frontend/mobile/src/app/perfume/[id].tsx": {
+    "mtime": 1795171917.2241917,
+    "seen": 1795171945.5410748,
+    "ast_hash": "4d2e1f8c4f665b1f7556fc2a4b3aaddd",
+    "semantic_hash": ""
+  },
+  "frontend/mobile/src/app/perfumes.tsx": {
+    "mtime": 1795171916.8758585,
+    "seen": 1795171945.5410786,
+    "ast_hash": "6d9d3fd1cbc41171d8992fe29c43bce7",
+    "semantic_hash": ""
+  },
+  "frontend/mobile/src/components/auth-required.tsx": {
+    "mtime": 1795171916.5275252,
+    "seen": 1795171945.5410845,
+    "ast_hash": "4623ac6e5dd1a2d9b587983c068a524b",
     "semantic_hash": ""
   }
 }
