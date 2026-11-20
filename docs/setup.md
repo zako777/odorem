@@ -127,3 +127,32 @@ Le seeder est rejouable et ne crée pas de doublon. Les codes-barres sont
 fictifs (`0000000000001`, `0000000000002`, `0000000000003`) et ne doivent pas
 être traités comme de vrais EAN.
 
+## Application mobile
+
+Depuis `frontend/mobile/` :
+
+```sh
+npm run start
+```
+
+L'application contacte l'API via `EXPO_PUBLIC_API_URL`. En développement, si la
+variable est absente, elle déduit l'adresse LAN de la machine Expo et utilise le
+port `3333`. Pour forcer une adresse, créer `frontend/mobile/.env.local` (non
+versionné) :
+
+```env
+EXPO_PUBLIC_API_URL=http://192.168.1.10:3333
+```
+
+Cette variable est publique et ne doit contenir aucun secret : le jeton de
+session est stocké dans `expo-secure-store`.
+
+Pour qu'un iPhone du réseau local joigne le backend, `backend/.env` doit
+écouter au-delà de `localhost` :
+
+```env
+HOST=0.0.0.0
+```
+
+Cette exposition au réseau local est réservée au développement.
+
