@@ -35,6 +35,9 @@ export default function Index() {
       <Link href="/perfumes" style={styles.link}>
         Parcourir le catalogue
       </Link>
+      <Link href="/collection" style={styles.link}>
+        Ma collection
+      </Link>
       <Link href="/scan" style={styles.link}>
         Scanner un code-barres
       </Link>
