@@ -396,15 +396,15 @@
     "semantic_hash": ""
   },
   "frontend/mobile/src/app/_layout.tsx": {
-    "mtime": 1795171921.5068574,
-    "seen": 1795171945.5410664,
-    "ast_hash": "93c95522d56b2456c97a809b1214c16d",
+    "mtime": 1795172148.0022247,
+    "seen": 1795172165.7646787,
+    "ast_hash": "acd7cf93daece60859422af36ef0732c",
     "semantic_hash": ""
   },
   "frontend/mobile/src/app/index.tsx": {
-    "mtime": 1795171921.1731908,
-    "seen": 1795171945.5410697,
-    "ast_hash": "76c8b02d024d0259cb74261a79dbe350",
+    "mtime": 1795172147.9288914,
+    "seen": 1795172165.7646828,
+    "ast_hash": "5d448775f92aab2afe72b2033d5c6b28",
     "semantic_hash": ""
   },
   "frontend/mobile/tests/smoke.test.js": {
@@ -879,6 +879,24 @@
     "mtime": 1795171916.5275252,
     "seen": 1795171945.5410845,
     "ast_hash": "4623ac6e5dd1a2d9b587983c068a524b",
+    "semantic_hash": ""
+  },
+  "frontend/mobile/src/app/collection.tsx": {
+    "mtime": 1795172145.8938918,
+    "seen": 1795172165.764681,
+    "ast_hash": "6a11cbb5ed658fa5521a6674d6ddaed9",
+    "semantic_hash": ""
+  },
+  "frontend/mobile/src/components/possession-row.tsx": {
+    "mtime": 1795172141.4205596,
+    "seen": 1795172165.764689,
+    "ast_hash": "1e70ccaba49e4623c87d5d8d4c8a067e",
+    "semantic_hash": ""
+  },
+  "frontend/mobile/src/lib/collection.ts": {
+    "mtime": 1795172129.921896,
+    "seen": 1795172165.764691,
+    "ast_hash": "33e9c2b0f3ff55445051329c8fd7c428",
     "semantic_hash": ""
   }
 }

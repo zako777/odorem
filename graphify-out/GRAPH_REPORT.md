@@ -1,17 +1,17 @@
 # Graph Report - odorem  (2026-11-20)
 
 ## Corpus Check
-- 144 files · ~28,790 words
+- 147 files · ~30,201 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 8, .example 1, .graphql 1)
 
 ## Summary
-- 889 nodes · 1583 edges · 57 communities (36 shown, 21 thin omitted)
+- 905 nodes · 1633 edges · 54 communities (37 shown, 17 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 35 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e529e6d8`
+- Built from commit: `30a258fe`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -34,7 +34,7 @@
 - models/product.ts
 - bootstrap.ts
 - schema.ts
-- container_bindings_middleware.ts
+- cors.ts
 - scripts
 - mobile/tsconfig.json
 - Backend API (AdonisJS)
@@ -52,7 +52,6 @@
 - events.ts
 - listeners.ts
 - @adonisjs/eslint-config
-- hotHook
 - AdonisJS GraphQL e2e Testing Skill
 - AdonisJS Unit Testing Skill
 - odorem-core
@@ -63,8 +62,6 @@
 - wishlist_resolver.ts
 - test.ts
 - silent_auth_middleware.ts
-- @adonisjs/shield
-- ace.js
 - routes.ts
 - AccessTokensController
 - session.tsx
@@ -102,15 +99,15 @@
 - **Backend Technology Stack** — backend, adonisjs_lucid, adonisjs_graphql_ddd, postgresql [EXTRACTED 1.00]
 - **Testing Strategy** — adonisjs_unit_testing, adonisjs_graphql_e2e_testing [EXTRACTED 1.00]
 
-## Communities (57 total, 21 thin omitted)
+## Communities (54 total, 17 thin omitted)
 
 ### Community 0 - "@adonisjs/core"
-Cohesion: 0.17
-Nodes (9): Data, User, Variants, NewAccountController, ProfileController, User, UserTransformer, bodyParserConfig (+1 more)
+Cohesion: 0.14
+Nodes (11): Data, User, Variants, NewAccountController, ProfileController, UserTransformer, email(), loginValidator (+3 more)
 
 ### Community 1 - "mobile/package.json"
-Cohesion: 0.05
-Nodes (41): devDependencies, eslint, eslint-config-expo, @types/react, typescript, eslint, typescript, main (+33 more)
+Cohesion: 0.04
+Nodes (44): devDependencies, eslint, eslint-config-expo, @types/react, typescript, eslint, typescript, main (+36 more)
 
 ### Community 2 - "tasks.py"
 Cohesion: 0.09
@@ -118,7 +115,7 @@ Nodes (18): backend(), build(), check(), _compose(), docker_build(), docker_down
 
 ### Community 3 - "UserEntity"
 Cohesion: 0.07
-Nodes (20): AuthPayload, LoginUserInput, RegisterUserInput, UserPublicProfile, UserResolver, LoginUser, LoginUserInput, RegisterUser (+12 more)
+Nodes (17): AuthPayload, LoginUserInput, RegisterUserInput, UserPublicProfile, UserResolver, LoginUser, LoginUserInput, RegisterUser (+9 more)
 
 ### Community 4 - "expo"
 Cohesion: 0.08
@@ -134,7 +131,7 @@ Nodes (8): placeholder, registry, routes, @tuyau/core/types, UserRegistry, Param
 
 ### Community 7 - "backend/package.json"
 Cohesion: 0.08
-Nodes (23): eslint, typescript, license, name, prettier, private, type, version (+15 more)
+Nodes (25): hotHook, boundaries, eslint, typescript, license, name, prettier, private (+17 more)
 
 ### Community 8 - "imports"
 Cohesion: 0.08
@@ -153,8 +150,8 @@ Cohesion: 0.12
 Nodes (17): devDependencies, @adonisjs/assembler, @adonisjs/eslint-config, @adonisjs/prettier-config, @adonisjs/tsconfig, eslint, hot-hook, @japa/assert (+9 more)
 
 ### Community 12 - "kernel.ts"
-Cohesion: 0.16
-Nodes (3): AdonisJS GraphQL + DDD Skill, corsConfig, @adonisjs/cors
+Cohesion: 0.13
+Nodes (4): AdonisJS GraphQL + DDD Skill, ContainerBindingsMiddleware, shieldConfig, @adonisjs/shield
 
 ### Community 13 - "auth.ts"
 Cohesion: 0.29
@@ -165,8 +162,8 @@ Cohesion: 0.13
 Nodes (10): appUrl, http, databaseConnection, dbConfig, @adonisjs/core/types, encryptionConfig, EncryptorsList, @adonisjs/core/types (+2 more)
 
 ### Community 15 - "models/product.ts"
-Cohesion: 0.14
-Nodes (9): Concentration, Perfume, GraphQLClient, GraphQLResponse, GraphQLClient, GraphQLResponse, GraphQLClient, GraphQLResponse (+1 more)
+Cohesion: 0.12
+Nodes (8): Perfume, GraphQLClient, GraphQLResponse, GraphQLClient, GraphQLResponse, GraphQLClient, GraphQLResponse, @japa/runner
 
 ### Community 16 - "bootstrap.ts"
 Cohesion: 0.15
@@ -213,8 +210,8 @@ Cohesion: 0.12
 Nodes (16): AdonisJS Lucid ORM: Standard Workflow, Checklist before finishing any DB task, Command reference, Core principle, Hard rules, Hooks (lifecycle logic on the model), Relationships cheat sheet, Step 1. Create the migration (+8 more)
 
 ### Community 31 - "barcode.spec.ts"
-Cohesion: 0.25
-Nodes (3): Barcode, GraphQLClient, GraphQLResponse
+Cohesion: 0.24
+Nodes (4): Barcode, Concentration, GraphQLClient, GraphQLResponse
 
 ### Community 32 - "exports"
 Cohesion: 0.67
@@ -225,12 +222,16 @@ Cohesion: 0.05
 Nodes (25): FindProductByBarcode, GetPerfume, ListProductsByPerfume, SearchPerfumes, SearchPerfumesInput, CatalogueRepository, PerfumesPage, ScannedProduct (+17 more)
 
 ### Community 43 - "Product"
-Cohesion: 0.32
-Nodes (3): Possession, Product, WishlistItem
+Cohesion: 0.31
+Nodes (4): Possession, Product, User, WishlistItem
 
 ### Community 44 - "@vinejs/vine"
 Cohesion: 0.29
 Nodes (5): barcodeValidator, VineGlobalTransforms, @vinejs/vine/types, luxon, @vinejs/vine
+
+### Community 45 - "console.ts"
+Cohesion: 0.22
+Nodes (3): APP_ROOT, APP_ROOT, @poppinss/ts-exec
 
 ### Community 46 - "hash.ts"
 Cohesion: 0.50
@@ -245,28 +246,28 @@ Cohesion: 0.25
 Nodes (4): controllers, AuthMiddleware, middleware, @adonisjs/auth
 
 ### Community 57 - "session.tsx"
-Cohesion: 0.09
-Nodes (38): Index(), LoginForm(), styles, RootLayout(), PerfumeDetail, PerfumeScreen(), styles, PerfumesPage (+30 more)
+Cohesion: 0.08
+Nodes (48): CollectionScreen(), styles, Index(), LoginForm(), styles, RootLayout(), PerfumeDetail, PerfumeScreen() (+40 more)
 
 ## Knowledge Gaps
 - **47 isolated node(s):** `@adonisjs/assembler`, `@adonisjs/prettier-config`, `@adonisjs/tsconfig`, `@types/luxon`, `@types/node` (+42 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 440 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **21 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 443 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `@adonisjs/core` connect `@adonisjs/core` to `UserEntity`, `backend/package.json`, `@foadonis/graphql`, `kernel.ts`, `env.ts`, `hash.ts`, `test.ts`, `silent_auth_middleware.ts`, `container_bindings_middleware.ts`, `bootstrap.ts`, `models/product.ts`, `routes.ts`, `api_provider.ts`, `force_json_response_middleware.ts`, `routes.d.ts`, `graphql_user_auth.spec.ts`, `handler.ts`, `barcode.spec.ts`?**
-  _High betweenness centrality (0.128) - this node is a cross-community bridge._
+- **Why does `@adonisjs/core` connect `@adonisjs/core` to `UserEntity`, `backend/package.json`, `@foadonis/graphql`, `kernel.ts`, `env.ts`, `hash.ts`, `test.ts`, `silent_auth_middleware.ts`, `cors.ts`, `bootstrap.ts`, `models/product.ts`, `routes.ts`, `api_provider.ts`, `force_json_response_middleware.ts`, `routes.d.ts`, `graphql_user_auth.spec.ts`, `handler.ts`, `barcode.spec.ts`?**
+  _High betweenness centrality (0.124) - this node is a cross-community bridge._
 - **What connects `@adonisjs/assembler`, `@adonisjs/prettier-config`, `@adonisjs/tsconfig` to the rest of the system?**
   _47 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `mobile/package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected._
+- **Should `@adonisjs/core` be split into smaller, more focused modules?**
+  _Cohesion score 0.1422924901185771 - nodes in this community are weakly interconnected._
 - **Why does `@adonisjs/lucid` connect `@adonisjs/lucid` to `backend/package.json`, `Product`, `env.ts`, `models/product.ts`, `wishlist_resolver.ts`, `schema.ts`, `bootstrap.ts`, `api_provider.ts`, `collection_resolver.ts`, `barcode.spec.ts`?**
-  _High betweenness centrality (0.079) - this node is a cross-community bridge._
+  _High betweenness centrality (0.076) - this node is a cross-community bridge._
+- **Should `mobile/package.json` be split into smaller, more focused modules?**
+  _Cohesion score 0.0425531914893617 - nodes in this community are weakly interconnected._
+- **Why does `@foadonis/graphql` connect `@foadonis/graphql` to `CatalogueRepository`, `UserEntity`, `backend/package.json`, `kernel.ts`, `wishlist_resolver.ts`, `bootstrap.ts`, `routes.ts`, `collection_resolver.ts`?**
+  _High betweenness centrality (0.070) - this node is a cross-community bridge._
 - **Should `tasks.py` be split into smaller, more focused modules?**
   _Cohesion score 0.09158186864014801 - nodes in this community are weakly interconnected._
-- **Why does `@foadonis/graphql` connect `@foadonis/graphql` to `CatalogueRepository`, `UserEntity`, `backend/package.json`, `kernel.ts`, `wishlist_resolver.ts`, `bootstrap.ts`, `routes.ts`, `collection_resolver.ts`?**
-  _High betweenness centrality (0.073) - this node is a cross-community bridge._
-- **Should `UserEntity` be split into smaller, more focused modules?**
-  _Cohesion score 0.06656426011264721 - nodes in this community are weakly interconnected._
